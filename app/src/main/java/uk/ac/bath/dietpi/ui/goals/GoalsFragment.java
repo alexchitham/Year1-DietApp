@@ -1,4 +1,4 @@
-package uk.ac.bath.dietpi.ui.dashboard;
+package uk.ac.bath.dietpi.ui.goals;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import uk.ac.bath.dietpi.databinding.FragmentDashboardBinding;
+import uk.ac.bath.dietpi.databinding.FragmentGoalsBinding;
 
-public class DashboardFragment extends Fragment {
+public class GoalsFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentGoalsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        GoalsViewModel goalsViewModel =
+                new ViewModelProvider(this).get(GoalsViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentGoalsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textNotifications;
+        goalsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

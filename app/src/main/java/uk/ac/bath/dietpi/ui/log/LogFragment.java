@@ -1,4 +1,4 @@
-package uk.ac.bath.dietpi.ui.notifications;
+package uk.ac.bath.dietpi.ui.log;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import uk.ac.bath.dietpi.databinding.FragmentNotificationsBinding;
+import uk.ac.bath.dietpi.databinding.FragmentLogBinding;
 
-public class NotificationsFragment extends Fragment {
+public class LogFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentLogBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        LogViewModel logViewModel =
+                new ViewModelProvider(this).get(LogViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentLogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textDashboard;
+        logViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
