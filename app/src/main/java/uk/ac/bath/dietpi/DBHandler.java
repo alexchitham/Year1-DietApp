@@ -1,5 +1,6 @@
 package uk.ac.bath.dietpi;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,11 +28,24 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Insert Data
-    public void insert(){
+    public void insert(int eaten_id, String food_name, double calories, double carbohydrates,
+                       double protein, double fat){
         SQLiteDatabase sqLiteDB = this.getWritableDatabase();
 
-        // Temporary code just to test database, this is not the best way to insert data
-        sqLiteDB.execSQL("INSERT INTO "+TBL_EATEN+" VALUES (1, 'Banana', 89, 23, 1.1, 0.3);");
+        ContentValues values = new ContentValues();
+
+        // Set record values
+        values.put(COLUMN_EATEN_ID, eaten_id);
+        values.put(COLUMN_FOOD_NAME, food_name);
+        values.put(COLUMN_CALORIES, calories);
+        values.put(COLUMN_CARBOHYDRATES, carbohydrates);
+        values.put(COLUMN_PROTEIN, protein);
+        values.put(COLUMN_FAT, fat);
+
+        // Insert record into database
+        sqLiteDB.insert(TBL_EATEN, null, values);
+
+        sqLiteDB.close();
     }
 
     // Retrieve whole table
