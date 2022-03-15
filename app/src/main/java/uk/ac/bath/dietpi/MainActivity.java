@@ -38,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Instantiate Database Handler
         dbHandler = new DBHandler(MainActivity.this);
-        // Test for database
-        dbHandler.insert();
+        // Test for database insert
+        dbHandler.insert(1, "Apple", 52, 14, 0.3, 0.2);
+        dbHandler.insert(2, "Banana", 89, 23, 1.1, 0.3);
+        dbHandler.insert(3, "Banana", 89, 23, 1.1, 0.3);
 
     }
 
