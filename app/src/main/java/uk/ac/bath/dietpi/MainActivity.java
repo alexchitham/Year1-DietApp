@@ -1,6 +1,8 @@
 package uk.ac.bath.dietpi;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -44,5 +46,6 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.insert(3, "Banana", 89, 23, 1.1, 0.3);
 
     }
+
 
 }

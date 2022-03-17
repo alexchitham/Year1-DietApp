@@ -3,4 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_log">Log</string>
     <string name="title_goals">Goals</string>
+    <string name="add_food">+ Add Food</string>
+    <string name="today_s_intake">Today\'s Intake</string>
 </resources>
