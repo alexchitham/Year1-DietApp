@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,11 @@ public class LogFragment extends Fragment {
         final TextView textView = binding.textDashboard;
         logViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    public void buttonOnClick(View v) {
+        Button button = (Button) v;
+        ((Button) v).setText("clicked");
     }
 
     @Override
