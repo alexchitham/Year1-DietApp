@@ -34,14 +34,13 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Insert Data
-    public void insert(int eaten_id, String food_name, double calories, double carbohydrates,
+    public void insert(String food_name, double calories, double carbohydrates,
                        double protein, double fat){
         SQLiteDatabase sqLiteDB = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         // Set record values
-        values.put(COLUMN_EATEN_ID, eaten_id);
         values.put(COLUMN_FOOD_NAME, food_name);
         values.put(COLUMN_CALORIES, calories);
         values.put(COLUMN_CARBOHYDRATES, carbohydrates);
