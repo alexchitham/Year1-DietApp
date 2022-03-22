@@ -5,4 +5,9 @@
     <string name="title_goals">Goals</string>
     <string name="add_food">+ Add Food</string>
     <string name="today_s_intake">Today\'s Intake</string>
+    <string name="current_goal">Current Goal</string>
+    <string name="change_goal_str">+ Change Goal</string>
+    <string name="change_goal_here">Change Goal Here</string>
+    <string name="textview">TextView</string>
+    <string name="name">Name</string>
 </resources>
