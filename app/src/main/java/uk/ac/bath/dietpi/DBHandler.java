@@ -20,7 +20,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
     // Constants for the database
     private static final String DB_NAME = "dietdb";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     // Constants for the Eaten Table
     private static final String TBL_EATEN = "tblEaten";
@@ -65,7 +65,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Retrieve whole table
-    public void retrieveTable() {
+    public List<ContentValues> retrieveTable() {
         List<ContentValues> contentList = new ArrayList<ContentValues>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TBL_EATEN;
@@ -89,13 +89,9 @@ public class DBHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        for (ContentValues cn : contentList) {
-            String log = "Id: " + cn.get(COLUMN_EATEN_ID) + " ,Name: " + cn.get(COLUMN_FOOD_NAME) + " ,Calories: " + cn.get(COLUMN_CALORIES) + " ,Carbs: " + cn.get(COLUMN_CARBOHYDRATES) + " ,Protein: " + cn.get(COLUMN_PROTEIN) + " ,Fat: " + cn.get(COLUMN_FAT) + ", Date: " + cn.get(COLUMN_DATE);
-            // Writing Contacts to log
-            Log.d("Name: ", log);
-        }
-
         cursor.close();
+
+        return contentList;
     }
 
     // Calculate totals of macro-nutrients (might be split into separate methods, or use of general method)
@@ -112,8 +108,8 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TBL_EATEN + " (" +
                 COLUMN_EATEN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FOOD_NAME + " TEXT, " +
-                COLUMN_CALORIES + " REAl, " +
-                COLUMN_CARBOHYDRATES + " REAl," +
+                COLUMN_CALORIES + " REAL, " +
+                COLUMN_CARBOHYDRATES + " REAL," +
                 COLUMN_PROTEIN + " REAL," +
                 COLUMN_FAT + " REAL," +
                 COLUMN_DATE + " TEXT" +
@@ -126,9 +122,49 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDB, int oldVersion, int newVersion) {
         // If the table exists, delete it
-        sqLiteDB.execSQL("DROP TABLE IF EXISTS tblFood");
+        sqLiteDB.execSQL("DROP TABLE IF EXISTS " + TBL_EATEN);
 
         // Create table
         onCreate(sqLiteDB);
+    }
+
+    public static String getDbName() {
+        return DB_NAME;
+    }
+
+    public static int getDbVersion() {
+        return DB_VERSION;
+    }
+
+    public static String getTblEaten() {
+        return TBL_EATEN;
+    }
+
+    public static String getColumnEatenId() {
+        return COLUMN_EATEN_ID;
+    }
+
+    public static String getColumnFoodName() {
+        return COLUMN_FOOD_NAME;
+    }
+
+    public static String getColumnCalories() {
+        return COLUMN_CALORIES;
+    }
+
+    public static String getColumnCarbohydrates() {
+        return COLUMN_CARBOHYDRATES;
+    }
+
+    public static String getColumnProtein() {
+        return COLUMN_PROTEIN;
+    }
+
+    public static String getColumnFat() {
+        return COLUMN_FAT;
+    }
+
+    public static String getColumnDate() {
+        return COLUMN_DATE;
     }
 }

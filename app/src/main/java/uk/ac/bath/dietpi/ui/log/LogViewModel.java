@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,8 +19,15 @@ public class LogViewModel extends ViewModel {
         mText.setValue("Log");
     }
 
-    public void updateText(View v, String str) {
-        TextView textView = v.getRootView().findViewById(R.id.textView);
+    public void setErrorMessage(View v, String str, Boolean isError) {
+        TextView textView = v.getRootView().findViewById(R.id.errorMessage);
+
+        if (isError) {
+            textView.setTextColor(Color.parseColor("#cf000f"));
+        } else {
+            textView.setTextColor(Color.parseColor("#009944"));
+        }
+
         textView.setText(str);
     }
 
