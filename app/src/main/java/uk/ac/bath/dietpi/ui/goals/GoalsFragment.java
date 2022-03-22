@@ -27,6 +27,18 @@ public class GoalsFragment extends Fragment {
         binding = FragmentGoalsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        EditText editTextGoal = binding.editTextGoal;
+        Button btnChangeGoal = binding.btnChangeGoal;
+        TextView textDisplayGoal = binding.textDisplayGoal;
+
+        btnChangeGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newGoal = editTextGoal.getText().toString();
+                textDisplayGoal.setText(newGoal);
+            }
+        });
+
         final TextView textView = binding.textView;
         goalsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 

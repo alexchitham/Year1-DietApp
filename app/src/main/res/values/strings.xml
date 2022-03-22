@@ -14,6 +14,7 @@
     <string name="current_goal">Current Goal</string>
     <string name="change_goal_str">+ Change Goal</string>
     <string name="change_goal_here">Change Goal Here</string>
+    <string name="example_goal">Example Goal</string>
     <string name="textview">TextView</string>
     <string name="name">Name</string>
 </resources>
