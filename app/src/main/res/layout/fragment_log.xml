@@ -70,12 +70,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/textView2"
+    <EditText
+        android:id="@+id/editTextCalories"
         android:layout_width="154dp"
         android:layout_height="46dp"
         android:hint="@string/calories_kcal"
-        android:text="@string/Blank"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
@@ -83,12 +83,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.497" />
 
-    <TextView
-        android:id="@+id/textView7"
+    <EditText
+        android:id="@+id/editTextCarbohydrates"
         android:layout_width="154dp"
         android:layout_height="46dp"
         android:hint="@string/carbohydrates_g"
-        android:text="@string/Blank"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.871"
@@ -96,12 +96,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.497" />
 
-    <TextView
-        android:id="@+id/textView10"
+    <EditText
+        android:id="@+id/editTextName"
         android:layout_width="154dp"
         android:layout_height="46dp"
         android:hint="@string/food_name"
-        android:text="@string/Blank"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -109,12 +109,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.172" />
 
-    <TextView
-        android:id="@+id/textView8"
+    <EditText
+        android:id="@+id/editTextProtein"
         android:layout_width="154dp"
         android:layout_height="46dp"
         android:hint="@string/protein_g"
-        android:text="@string/Blank"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
@@ -122,12 +122,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.886" />
 
-    <TextView
-        android:id="@+id/textView9"
+    <EditText
+        android:id="@+id/editTextFat"
         android:layout_width="154dp"
         android:layout_height="46dp"
         android:hint="@string/fat_g"
-        android:text="@string/Blank"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.871"
