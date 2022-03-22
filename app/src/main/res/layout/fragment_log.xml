@@ -8,22 +8,23 @@
 
     <Button
         android:id="@+id/add_foodBT"
-        android:layout_width="304dp"
-        android:layout_height="84dp"
+        android:layout_width="219dp"
+        android:layout_height="48dp"
         android:focusable="auto"
-        android:onClick="buttonOnClick"
+
 
         android:text="@string/add_food"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.915" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="408dp"
-        android:layout_height="630dp"
-        android:layout_marginTop="200dp"
+        android:layout_width="403dp"
+        android:layout_height="407dp"
+        android:layout_marginTop="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
@@ -44,7 +45,94 @@
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="366dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </TableLayout>
+
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:hint="@string/calories_kcal"
+        android:text="@string/Blank"
+        app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:hint="@string/carbohydrates_g"
+        android:text="@string/Blank"
+        app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:hint="@string/food_name"
+        android:text="@string/Blank"
+        app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.172" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:hint="@string/protein_g"
+        android:text="@string/Blank"
+        app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.886" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:hint="@string/fat_g"
+        android:text="@string/Blank"
+        app:layout_constraintBottom_toTopOf="@+id/add_foodBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.881" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
