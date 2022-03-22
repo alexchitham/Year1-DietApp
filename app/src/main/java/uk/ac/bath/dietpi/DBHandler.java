@@ -1,11 +1,17 @@
+
+
 package uk.ac.bath.dietpi;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.Nullable;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
     // Constants for the database
@@ -28,14 +34,13 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Insert Data
-    public void insert(int eaten_id, String food_name, double calories, double carbohydrates,
+    public void insert(String food_name, double calories, double carbohydrates,
                        double protein, double fat){
         SQLiteDatabase sqLiteDB = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         // Set record values
-        values.put(COLUMN_EATEN_ID, eaten_id);
         values.put(COLUMN_FOOD_NAME, food_name);
         values.put(COLUMN_CALORIES, calories);
         values.put(COLUMN_CARBOHYDRATES, carbohydrates);
@@ -49,8 +54,36 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Retrieve whole table
-    public void retrieveTable(){
-        return;
+    public void retrieveTable() {
+        List<ContentValues> contentList = new ArrayList<ContentValues>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TBL_EATEN;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_EATEN_ID, Integer.parseInt(cursor.getString(0)));
+                values.put(COLUMN_FOOD_NAME, cursor.getString(1));
+                values.put(COLUMN_CALORIES, cursor.getString(2));
+                values.put(COLUMN_CARBOHYDRATES, cursor.getString(3));
+                values.put(COLUMN_PROTEIN, cursor.getString(4));
+                values.put(COLUMN_FAT, cursor.getString(5));
+                // Adding contact to list
+                contentList.add(values);
+            } while (cursor.moveToNext());
+        }
+
+        for (ContentValues cn : contentList) {
+            String log = "Id: " + cn.get(COLUMN_EATEN_ID) + " ,Name: " + cn.get(COLUMN_FOOD_NAME) + " ,Calories: " + cn.get(COLUMN_CALORIES) + " ,Carbs: " + cn.get(COLUMN_CARBOHYDRATES) + " ,Protein: " + cn.get(COLUMN_PROTEIN) + " ,Fat: " + cn.get(COLUMN_FAT) ;
+            // Writing Contacts to log
+            Log.d("Name: ", log);
+        }
+
+        cursor.close();
     }
 
     // Calculate totals of macro-nutrients (might be split into separate methods, or use of general method)

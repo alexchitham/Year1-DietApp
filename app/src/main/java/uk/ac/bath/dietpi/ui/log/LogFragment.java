@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import uk.ac.bath.dietpi.MainActivity;
 import uk.ac.bath.dietpi.databinding.FragmentLogBinding;
 
 public class LogFragment extends Fragment {
@@ -35,15 +36,16 @@ public class LogFragment extends Fragment {
                 new ViewModelProvider(this).get(LogViewModel.class);
 
         String foodName = binding.editTextName.getText().toString();
-        String calories = binding.editTextCalories.getText().toString();
-        String carbohydrates = binding.editTextCarbohydrates.getText().toString();
-        String protein = binding.editTextProtein.getText().toString();
-        String fat = binding.editTextFat.getText().toString();
+        int calories = Integer.parseInt(binding.editTextCalories.getText().toString());
+        int carbohydrates = Integer.parseInt(binding.editTextCarbohydrates.getText().toString());
+        int protein = Integer.parseInt(binding.editTextProtein.getText().toString());
+        int fat = Integer.parseInt(binding.editTextFat.getText().toString());
 
         // Call methods in update text (testing)
         logViewModel.updateText(v, foodName);
 
         // Call database insert function
+        ((MainActivity) getActivity()).getDbHandler().insert(foodName, calories, carbohydrates, protein, fat);
     }
 
     @Override
