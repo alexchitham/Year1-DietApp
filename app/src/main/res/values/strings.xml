@@ -5,4 +5,10 @@
     <string name="title_goals">Goals</string>
     <string name="add_food">+ Add Food</string>
     <string name="today_s_intake">Today\'s Intake</string>
+    <string name="carbohydrates_g">Carbohydrates (g)</string>
+    <string name="calories_kcal">Calories (kcal)</string>
+    <string name="Blank">" "</string>
+    <string name="food_name">Food Name</string>
+    <string name="protein_g">Protein (g)</string>
+    <string name="fat_g">Fat (g)</string>
 </resources>
