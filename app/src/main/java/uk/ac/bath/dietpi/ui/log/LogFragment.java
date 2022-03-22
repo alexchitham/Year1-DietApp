@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,14 +23,22 @@ public class LogFragment extends Fragment {
         binding = FragmentLogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        logViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        binding.addFoodBT.setOnClickListener(this::buttonOnClick);
+    }
+
     public void buttonOnClick(View v) {
-        Button button = (Button) v;
-        ((Button) v).setText("clicked");
+        LogViewModel logViewModel =
+                new ViewModelProvider(this).get(LogViewModel.class);
+
+        // Update text
+        binding.textView.setText("button clicked!");
+
+        // Call methods in update text
+        logViewModel.updateText();
     }
 
     @Override
