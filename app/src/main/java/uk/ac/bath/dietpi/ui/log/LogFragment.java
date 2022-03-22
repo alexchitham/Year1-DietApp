@@ -36,16 +36,20 @@ public class LogFragment extends Fragment {
                 new ViewModelProvider(this).get(LogViewModel.class);
 
         String foodName = binding.editTextName.getText().toString();
-        int calories = Integer.parseInt(binding.editTextCalories.getText().toString());
-        int carbohydrates = Integer.parseInt(binding.editTextCarbohydrates.getText().toString());
-        int protein = Integer.parseInt(binding.editTextProtein.getText().toString());
-        int fat = Integer.parseInt(binding.editTextFat.getText().toString());
 
-        // Call methods in update text (testing)
-        logViewModel.updateText(v, foodName);
+        try {
+            double calories = Double.parseDouble(binding.editTextCalories.getText().toString());
+            double carbohydrates = Double.parseDouble(binding.editTextCarbohydrates.getText().toString());
+            double protein = Double.parseDouble(binding.editTextProtein.getText().toString());
+            double fat = Double.parseDouble(binding.editTextFat.getText().toString());
 
-        // Call database insert function
-        ((MainActivity) getActivity()).getDbHandler().insert(foodName, calories, carbohydrates, protein, fat);
+            // Call database insert function
+            ((MainActivity) getActivity()).getDbHandler().insert(foodName, calories, carbohydrates, protein, fat);
+            logViewModel.updateText(v, "Inserted");
+        } catch (Exception ex) {
+            // change this to a different textView
+            logViewModel.updateText(v, "Must be numbers");
+        }
     }
 
     @Override
