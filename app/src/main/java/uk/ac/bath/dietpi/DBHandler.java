@@ -7,10 +7,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -26,6 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String COLUMN_CARBOHYDRATES = "Carbohydrates";
     private static final String COLUMN_PROTEIN = "Protein";
     private static final String COLUMN_FAT = "Fat";
+    private static final String COLUMN_DATE = "Date"; //Date is as text in form YYYY/MM/DD
 
 
     // Constructor Method
@@ -40,12 +45,18 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
+        // Get current date
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date currentDate = new Date();
+        String date = dateFormat.format(currentDate);
+
         // Set record values
         values.put(COLUMN_FOOD_NAME, food_name);
         values.put(COLUMN_CALORIES, calories);
         values.put(COLUMN_CARBOHYDRATES, carbohydrates);
         values.put(COLUMN_PROTEIN, protein);
         values.put(COLUMN_FAT, fat);
+        values.put(COLUMN_DATE, date);
 
         // Insert record into database
         sqLiteDB.insert(TBL_EATEN, null, values);
@@ -72,13 +83,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 values.put(COLUMN_CARBOHYDRATES, cursor.getString(3));
                 values.put(COLUMN_PROTEIN, cursor.getString(4));
                 values.put(COLUMN_FAT, cursor.getString(5));
+                values.put(COLUMN_DATE, cursor.getString(6));
                 // Adding contact to list
                 contentList.add(values);
             } while (cursor.moveToNext());
         }
 
         for (ContentValues cn : contentList) {
-            String log = "Id: " + cn.get(COLUMN_EATEN_ID) + " ,Name: " + cn.get(COLUMN_FOOD_NAME) + " ,Calories: " + cn.get(COLUMN_CALORIES) + " ,Carbs: " + cn.get(COLUMN_CARBOHYDRATES) + " ,Protein: " + cn.get(COLUMN_PROTEIN) + " ,Fat: " + cn.get(COLUMN_FAT) ;
+            String log = "Id: " + cn.get(COLUMN_EATEN_ID) + " ,Name: " + cn.get(COLUMN_FOOD_NAME) + " ,Calories: " + cn.get(COLUMN_CALORIES) + " ,Carbs: " + cn.get(COLUMN_CARBOHYDRATES) + " ,Protein: " + cn.get(COLUMN_PROTEIN) + " ,Fat: " + cn.get(COLUMN_FAT) + ", Date: " + cn.get(COLUMN_DATE);
             // Writing Contacts to log
             Log.d("Name: ", log);
         }
@@ -103,7 +115,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_CALORIES + " REAl, " +
                 COLUMN_CARBOHYDRATES + " REAl," +
                 COLUMN_PROTEIN + " REAL," +
-                COLUMN_FAT + " REAL" +
+                COLUMN_FAT + " REAL," +
+                COLUMN_DATE + " TEXT" +
                 ")";
         sqLiteDB.execSQL(query);
     }

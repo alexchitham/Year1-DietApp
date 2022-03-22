@@ -3,14 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/MFayy/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/fragment_goals.xml" value="0.19202898550724637" />
-        <entry key="..\:/Users/MFayy/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/fragment_log.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/Robert/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/activity_main.xml" value="0.18432971014492755" />
+        <entry key="..\:/Users/Robert/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/fragment_goals.xml" value="0.25" />
         <entry key="..\:/Users/Robert/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/fragment_home.xml" value="0.18432971014492755" />
-        <entry key="..\:/Users/alexc/OneDrive/Documents/Bath CS/Software Processes and Modelling - CM10313/Diet Project Coursework/app/src/main/res/layout/activity_main.xml" value="0.35507246376811596" />
-        <entry key="..\:/Users/alexc/OneDrive/Documents/Bath CS/Software Processes and Modelling - CM10313/Diet Project Coursework/app/src/main/res/layout/fragment_goals.xml" value="0.35507246376811596" />
-        <entry key="..\:/Users/alexc/OneDrive/Documents/Bath CS/Software Processes and Modelling - CM10313/Diet Project Coursework/app/src/main/res/layout/fragment_home.xml" value="0.35507246376811596" />
-        <entry key="..\:/Users/alexc/OneDrive/Documents/Bath CS/Software Processes and Modelling - CM10313/Diet Project Coursework/app/src/main/res/layout/fragment_log.xml" value="0.35507246376811596" />
+        <entry key="..\:/Users/Robert/AndroidStudioProjects/CM10313-Coursework/app/src/main/res/layout/fragment_log.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
       </map>
     </option>
