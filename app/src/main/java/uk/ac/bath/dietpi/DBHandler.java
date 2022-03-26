@@ -157,7 +157,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
-
+        db.close();
         return contentList;
     }
 
