@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import uk.ac.bath.dietpi.R;
 
 public class LogViewModel extends ViewModel {

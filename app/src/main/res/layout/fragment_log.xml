@@ -6,17 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".ui.log.LogFragment">
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_margin="10dp"
-        android:hint="@string/food_name"
-        android:inputType="text"
+    <LinearLayout
+        android:id="@+id/nameInputFields"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editTextQuantity"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:hint="@string/food_quantity"
+            android:inputType="text"
+            android:text="1" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:hint="@string/food_name"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/autofill_dataBT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/autofill_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameInputFields" />
 
     <LinearLayout
         android:id="@+id/topInputFields"
@@ -25,7 +52,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextName">
+        app:layout_constraintTop_toBottomOf="@+id/autofill_dataBT">
 
         <EditText
             android:id="@+id/editTextCalories"
