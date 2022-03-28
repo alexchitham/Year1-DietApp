@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -162,8 +163,28 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Calculate totals of macro-nutrients (might be split into separate methods, or use of general method)
-    public void retrieveTotal(){
-        return;
+    public Hashtable<String,Float> retrieveTotal(){
+        // Retrieve the whole database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Initialize the query
+        String sumQuery = "SELECT SUM(" + TBL_FOOD + "." + COLUMN_CALORIES +"), SUM("+ TBL_FOOD +"." + COLUMN_CARBOHYDRATES +"), SUM("+ TBL_FOOD +"." + COLUMN_PROTEIN +"), SUM(" + TBL_FOOD +"." + COLUMN_FAT + ") FROM " + TBL_EATEN +" INNER JOIN " + TBL_FOOD + " ON " + TBL_EATEN + "." + COLUMN_FOOD_ID +"="+TBL_FOOD + "." + COLUMN_FOOD_ID + ";";
+        Hashtable<String,Float> result = new Hashtable<String,Float>();
+
+        Cursor cursor = db.rawQuery(sumQuery, null);
+
+        // Adds the sum of each column into the hashtable
+        if (cursor.moveToFirst()) {
+            result.put(COLUMN_CALORIES,Float.parseFloat(cursor.getString(0)));
+            result.put(COLUMN_CARBOHYDRATES,Float.parseFloat(cursor.getString(0)));
+            result.put(COLUMN_PROTEIN,Float.parseFloat(cursor.getString(0)));
+            result.put(COLUMN_FAT,Float.parseFloat(cursor.getString(0)));
+        }
+
+        // Closes the cursor and database connection
+        cursor.close();
+        db.close();
+        return result;
     }
 
 
