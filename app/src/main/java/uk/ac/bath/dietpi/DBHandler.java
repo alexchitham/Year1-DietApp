@@ -167,18 +167,50 @@ public class DBHandler extends SQLiteOpenHelper {
         // Retrieve the whole database
         SQLiteDatabase db = this.getWritableDatabase();
 
+        // Get current date
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date currentDate = new Date();
+        String date = dateFormat.format(currentDate);
+
         // Initialize the query
-        String sumQuery = "SELECT SUM(" + TBL_FOOD + "." + COLUMN_CALORIES +"), SUM("+ TBL_FOOD +"." + COLUMN_CARBOHYDRATES +"), SUM("+ TBL_FOOD +"." + COLUMN_PROTEIN +"), SUM(" + TBL_FOOD +"." + COLUMN_FAT + ") FROM " + TBL_EATEN +" INNER JOIN " + TBL_FOOD + " ON " + TBL_EATEN + "." + COLUMN_FOOD_ID +"="+TBL_FOOD + "." + COLUMN_FOOD_ID + ";";
+        String sumQuery = "SELECT SUM(" + TBL_FOOD + "." + COLUMN_CALORIES +"), SUM("+ TBL_FOOD +"." + COLUMN_CARBOHYDRATES +"), SUM("+ TBL_FOOD +"." + COLUMN_PROTEIN +"), SUM(" + TBL_FOOD +"." + COLUMN_FAT + ") " +
+                "FROM " + TBL_EATEN +" INNER JOIN " + TBL_FOOD + " ON " + TBL_EATEN + "." + COLUMN_FOOD_ID +"="+TBL_FOOD + "." + COLUMN_FOOD_ID +
+                " WHERE " + TBL_EATEN + "." + COLUMN_DATE + "= '" + date + "';";
         Hashtable<String,Float> result = new Hashtable<String,Float>();
 
         Cursor cursor = db.rawQuery(sumQuery, null);
 
         // Adds the sum of each column into the hashtable
         if (cursor.moveToFirst()) {
-            result.put(COLUMN_CALORIES,Float.parseFloat(cursor.getString(0)));
-            result.put(COLUMN_CARBOHYDRATES,Float.parseFloat(cursor.getString(0)));
-            result.put(COLUMN_PROTEIN,Float.parseFloat(cursor.getString(0)));
-            result.put(COLUMN_FAT,Float.parseFloat(cursor.getString(0)));
+            if (cursor.getString(0) == null) {
+                result.put(COLUMN_CALORIES, 0f);
+            } else {
+                result.put(COLUMN_CALORIES, Float.parseFloat(cursor.getString(0)));
+            }
+
+            if (cursor.getString(1) == null) {
+                result.put(COLUMN_CARBOHYDRATES, 0f);
+            } else {
+                result.put(COLUMN_CARBOHYDRATES, Float.parseFloat(cursor.getString(1)));
+            }
+
+            if (cursor.getString(2) == null) {
+                result.put(COLUMN_PROTEIN, 0f);
+            } else {
+                result.put(COLUMN_PROTEIN, Float.parseFloat(cursor.getString(2)));
+            }
+
+            if (cursor.getString(3) == null) {
+                result.put(COLUMN_FAT, 0f);
+            } else {
+                result.put(COLUMN_FAT, Float.parseFloat(cursor.getString(3)));
+            }
+        }
+        else{
+            result.put(COLUMN_CALORIES, 0f);
+            result.put(COLUMN_CARBOHYDRATES, 0f);
+            result.put(COLUMN_PROTEIN, 0f);
+            result.put(COLUMN_FAT,0f);
         }
 
         // Closes the cursor and database connection
