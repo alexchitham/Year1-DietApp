@@ -2,10 +2,8 @@ package uk.ac.bath.dietpi;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

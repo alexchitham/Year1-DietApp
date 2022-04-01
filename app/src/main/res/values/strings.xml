@@ -19,4 +19,5 @@
     <string name="name">Name</string>
     <string name="autofill_data">Autofill Data</string>
     <string name="food_quantity">Quantity</string>
+    <string name="today_s_consumption">Today\'s Consumption:</string>
 </resources>
