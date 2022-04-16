@@ -15,5 +15,9 @@
         android:id="@+id/navigation_goals"
         android:icon="@drawable/ic_goals_black_24dp"
         android:title="@string/title_goals" />
+    <item
+        android:id="@+id/navigation_userdetails"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="User Details" />
 
 </menu>
