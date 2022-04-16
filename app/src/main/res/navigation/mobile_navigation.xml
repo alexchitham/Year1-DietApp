@@ -22,4 +22,9 @@
         android:name="uk.ac.bath.dietpi.ui.goals.GoalsFragment"
         android:label="@string/title_goals"
         tools:layout="@layout/fragment_goals" />
+    <fragment
+        android:id="@+id/navigation_userdetails"
+        android:name="uk.ac.bath.dietpi.ui.userdetails.UserDetailsFragment"
+        android:label="User Details"
+        tools:layout="@layout/fragment_user_details"/>
 </navigation>

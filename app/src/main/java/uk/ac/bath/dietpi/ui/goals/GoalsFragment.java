@@ -1,8 +1,6 @@
 package uk.ac.bath.dietpi.ui.goals;
 
-import android.app.KeyguardManager;
 import android.content.Context;
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Hashtable;
 
