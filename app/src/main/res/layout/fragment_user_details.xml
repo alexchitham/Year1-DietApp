@@ -33,7 +33,7 @@
                     android:text="@string/first_name" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName3"
+                    android:id="@+id/editTextFirstName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -58,7 +58,7 @@
                     android:text="@string/age" />
 
                 <EditText
-                    android:id="@+id/editTextNumber"
+                    android:id="@+id/editTextAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -83,23 +83,27 @@
                         android:text="@string/gender" />
 
                     <RadioGroup
+                        android:id= "@+id/RadioGroupGender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id = "@+id/RadioButtonMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/male" />
 
                         <RadioButton
+                            android:id = "@+id/RadioButtonFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/female" />
 
                         <RadioButton
+                            android:id = "@+id/RadioButtonOptOut"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -120,13 +124,13 @@
                     android:text="@string/height" />
 
                 <EditText
-                    android:id="@+id/editTextNumber2"
+                    android:id="@+id/editTextHeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/enter_height"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:minHeight="48dp"
                     android:autofillHints="Height" />
             </LinearLayout>
@@ -144,13 +148,13 @@
                     android:text="@string/weight" />
 
                 <EditText
-                    android:id="@+id/editTextNumber3"
+                    android:id="@+id/editTextWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/enter_weight"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:minHeight="48dp"
                     android:autofillHints="Weight" />
 
@@ -161,13 +165,16 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/buttonUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/update_details" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/textViewError"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="0dp"
+                    android:textSize="15sp"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>

@@ -21,7 +21,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
     // Constants for the database
     private static final String DB_NAME = "dietdb";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     // Constants for the Eaten Table
     private static final String TBL_EATEN = "tblEaten";
@@ -30,7 +30,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Constants for both Eaten and Food Table
     private static final String COLUMN_FOOD_ID = "Food_ID";
-
 
     // Constants for Food Table
     private static final String TBL_FOOD = "tblFood";
@@ -43,6 +42,14 @@ public class DBHandler extends SQLiteOpenHelper {
     // Constant for View
     private static final String VIEW_EATEN_DETAILS = "viewEatenDetails";
 
+    // Constants for User Details Table
+    private static final String TBL_USER_DETAILS = "tblUserDetails";
+    private static final String COLUMN_FIRST_NAME = "First_Name";
+    private static final String COLUMN_AGE = "Age";
+    private static final String COLUMN_GENDER = "Gender";
+    private static final String COLUMN_HEIGHT = "Height";
+    private static final String COLUMN_WEIGHT = "Weight";
+    private static final String COLUMN_DETAILS_ID = "detailsID";
 
     // Constructor Method
     public DBHandler(@Nullable Context context){
@@ -102,9 +109,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         // Get current date
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date currentDate = new Date();
-        String date = dateFormat.format(currentDate);
+        String date = getDate();
 
         // Insert Food record into eaten
         SQLiteDatabase sqLiteDB = this.getWritableDatabase();
@@ -168,9 +173,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Get current date
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date currentDate = new Date();
-        String date = dateFormat.format(currentDate);
+        String date = getDate();
 
         // Initialize the query
         String sumQuery = "SELECT SUM(" + TBL_FOOD + "." + COLUMN_CALORIES +"), SUM("+ TBL_FOOD +"." + COLUMN_CARBOHYDRATES +"), SUM("+ TBL_FOOD +"." + COLUMN_PROTEIN +"), SUM(" + TBL_FOOD +"." + COLUMN_FAT + ") " +
@@ -219,6 +222,61 @@ public class DBHandler extends SQLiteOpenHelper {
         return result;
     }
 
+    // Inserts new record into user details
+    public void newUserDetails(String firstName, int age, int gender, double height, double weight){
+        // Get current date
+        String date = getDate();
+
+        // Insert new user details into record
+        SQLiteDatabase sqLiteDB = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+;
+        // Set record values
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_FIRST_NAME, firstName);
+        values.put(COLUMN_AGE, age);
+        values.put(COLUMN_GENDER, gender); // 0 = Male, 1 = Female, 2 = Other
+        values.put(COLUMN_HEIGHT, height);
+        values.put(COLUMN_WEIGHT, weight);
+
+        // Insert record into database
+        sqLiteDB.insert(TBL_USER_DETAILS, null, values);
+
+        sqLiteDB.close();
+    }
+
+    // Returns latest users details
+    public ContentValues getCurrentUserDetails(){
+        // Setup Query to get latest users details
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sumQuery = "SELECT " + COLUMN_FIRST_NAME + "," + COLUMN_AGE + "," + COLUMN_GENDER + "," + COLUMN_HEIGHT + "," + COLUMN_WEIGHT + " " +
+                "FROM " + TBL_USER_DETAILS + " " +
+                "WHERE " + COLUMN_DETAILS_ID + "= ( SELECT MAX(" + COLUMN_DETAILS_ID + ") FROM " + TBL_USER_DETAILS +");";
+
+        // Execute Query
+        Cursor cursor = db.rawQuery(sumQuery, null);
+
+        // Get user details into ContentsValues
+        ContentValues userDetails = new ContentValues();
+        // If there's a result
+        if (cursor.moveToFirst()) {
+            userDetails.put(COLUMN_FIRST_NAME, cursor.getString(0));
+            userDetails.put(COLUMN_AGE, cursor.getInt(1));
+            userDetails.put(COLUMN_GENDER, cursor.getInt(2));
+            userDetails.put(COLUMN_HEIGHT, cursor.getDouble(3));
+            userDetails.put(COLUMN_WEIGHT, cursor.getDouble(4));
+        }
+        else{
+            return null;
+        }
+        return userDetails;
+    }
+
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date currentDate = new Date();
+        return dateFormat.format(currentDate);
+    }
 
 
     // Creates a database, called the first time a database is accessed
@@ -243,6 +301,17 @@ public class DBHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + COLUMN_FOOD_ID + ") REFERENCES " + TBL_FOOD + "(" + COLUMN_FOOD_ID + ")" +
                 ");";
         sqLiteDB.execSQL(query2);
+
+        // Creates an SQL Query to create the user details table and executes it
+        String query3 = "CREATE TABLE " + TBL_USER_DETAILS + "( " +
+                COLUMN_DETAILS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_FIRST_NAME + " TEXT, " +
+                COLUMN_AGE + " INTEGER, " +
+                COLUMN_GENDER + " INTEGER, " +
+                COLUMN_HEIGHT + " REAL, " +
+                COLUMN_WEIGHT + " REAL);";
+        sqLiteDB.execSQL(query3);
     }
 
     // Ensure that any users with an outdated db schema gets the new schema
@@ -252,6 +321,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // If the table exists, delete it
         sqLiteDB.execSQL("DROP TABLE IF EXISTS " + TBL_EATEN);
         sqLiteDB.execSQL("DROP TABLE IF EXISTS " + TBL_FOOD);
+        sqLiteDB.execSQL("DROP TABLE IF EXISTS " + TBL_USER_DETAILS);
 
         // Create table
         onCreate(sqLiteDB);
@@ -296,4 +366,25 @@ public class DBHandler extends SQLiteOpenHelper {
     public static String getColumnDate() {
         return COLUMN_DATE;
     }
+
+    public static String getColumnFirstName() {
+        return COLUMN_FIRST_NAME;
+    }
+
+    public static String getColumnAge() {
+        return COLUMN_AGE;
+    }
+
+    public static String getColumnGender() {
+        return COLUMN_GENDER;
+    }
+
+    public static String getColumnHeight() {
+        return COLUMN_HEIGHT;
+    }
+
+    public static String getColumnWeight() {
+        return COLUMN_WEIGHT;
+    }
+
 }
