@@ -51,14 +51,18 @@ public class GoalsFragment extends Fragment {
         binding = FragmentGoalsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        String[] macronutrients = getResources().getStringArray(R.array.macronutrients);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdown_item, macronutrients);
+        binding.autoCompleteTextView.setAdapter(arrayAdapter);
+
         editTextGoal = binding.editTextGoal;
         btnChangeGoal = binding.btnChangeGoal;
         textDisplayGoal = binding.textDisplayGoal;
         displayProgressTextView = binding.displayProgressTextView;
         autoCompleteTextView = binding.autoCompleteTextView;
 
-        selectedMacronutrient = autoCompleteTextView.getText().toString();
-
+        setSelection();
+        displayCurrentProgress();
 
         btnChangeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,42 +70,64 @@ public class GoalsFragment extends Fragment {
                 String newGoal = editTextGoal.getText().toString();
                 if(!newGoal.equals(""))
                 {
-                    selectedMacronutrient = autoCompleteTextView.getText().toString();
-                    textDisplayGoal.setText(newGoal + " " + selectedMacronutrient);
-                    editTextGoal.setText("");
                     saveData();
+                    setCurrentGoalText(newGoal);
                     displayCurrentProgress();
                 }
             }
         });
 
         loadData();
-        displayCurrentProgress();
 
         return root;
+    }
+
+    public void setSelection()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+
+        if(!getMacronutrient.equals(null))
+        {
+            autoCompleteTextView.setText(getMacronutrient);
+        }
+        else
+        {
+            autoCompleteTextView.setText("Calories (kcal)");
+        }
+    }
+
+    public void setCurrentGoalText(String newGoal)
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+
+        textDisplayGoal.setText(newGoal + " " + getMacronutrient);
+        editTextGoal.setText("");
     }
 
     public void displayCurrentProgress()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
         DBHandler dbHandler = ((MainActivity) getActivity()).getDbHandler();
 
         Hashtable<String,Float> hT = dbHandler.retrieveTotal();
         String calorie_count;
 
-        if(selectedMacronutrient.equals("Calories (kcal)"))
+        if(getMacronutrient.equals("Calories (kcal)"))
         {
             calorie_count = hT.get("Calories").toString();
         }
-        else if(selectedMacronutrient.equals("Fat (g)"))
+        else if(getMacronutrient.equals("Fat (g)"))
         {
             calorie_count = hT.get("Fat").toString();
         }
-        else if(selectedMacronutrient.equals("Protein (g)"))
+        else if(getMacronutrient.equals("Protein (g)"))
         {
             calorie_count = hT.get("Protein").toString();
         }
-        else if(selectedMacronutrient.equals("Carbs (g)"))
+        else if(getMacronutrient.equals("Carbs (g)"))
         {
             calorie_count = hT.get("Carbohydrates").toString();
         }
@@ -122,7 +148,7 @@ public class GoalsFragment extends Fragment {
         }
         */
 
-        displayProgressTextView.setText(calorie_count + " " + selectedMacronutrient);
+        displayProgressTextView.setText(calorie_count + " " + getMacronutrient);
 
     }
 
@@ -132,6 +158,7 @@ public class GoalsFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(TEXT, textDisplayGoal.getText().toString());
+        editor.putString(selectedMacronutrient, autoCompleteTextView.getText().toString());
 
         editor.apply();
     }
@@ -146,6 +173,14 @@ public class GoalsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+
+        String currentNutrient = autoCompleteTextView.getText().toString();
+        if(currentNutrient.equals(getMacronutrient))
+        {
+            saveData();
+        }
         binding = null;
     }
 }
