@@ -72,6 +72,7 @@ public class GoalsFragment extends Fragment {
                 {
                     saveData();
                     setCurrentGoalText(newGoal);
+                    saveData();
                     displayCurrentProgress();
                 }
             }
