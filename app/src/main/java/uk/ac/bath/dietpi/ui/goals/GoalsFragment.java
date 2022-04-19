@@ -82,6 +82,8 @@ public class GoalsFragment extends Fragment {
         displayCurrentProgress();
         displayStreaks();
 
+        String something = textDisplayGoal.getText().toString();
+
         btnChangeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,9 +129,8 @@ public class GoalsFragment extends Fragment {
         {
             currentlySavedDate = getDate();
         }
+
         String currentDate = getDate();
-
-
 
         String new_save_date = currentlySavedDate.substring(0, 2);
         String new_current_date = currentDate.substring(0, 2);
@@ -138,9 +139,10 @@ public class GoalsFragment extends Fragment {
         int savedDay = Integer.parseInt(new_save_date);
         int currentDay = Integer.parseInt(new_current_date);
 
+
         String goal = binding.textDisplayGoal.getText().toString();
         String progress = binding.displayProgressTextView.getText().toString();
-        if(!goal.equals("") && !progress.equals("") && checked.equals("false"))
+        if(!goal.equals("") && !progress.equals(" ") && checked.equals("false"))
         {
             if(currentDay == savedDay)
             {
@@ -174,6 +176,8 @@ public class GoalsFragment extends Fragment {
                 setCurrentDate();
             }
         }
+
+
         displayStreaksTextView.setText(streak_value.toString());
     }
 
@@ -242,7 +246,10 @@ public class GoalsFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         selectedMacronutrient = sharedPreferences.getString(MACRO, "");
 
-        textDisplayGoal.setText(newGoal + " " + selectedMacronutrient);
+        if(!newGoal.equals(""))
+        {
+            textDisplayGoal.setText(newGoal + " " + selectedMacronutrient);
+        }
         editTextGoal.setText("");
     }
 
@@ -276,18 +283,6 @@ public class GoalsFragment extends Fragment {
             calorie_count = "";
         }
 
-        /*
-        if(!calorie_count.equals(""))
-        {
-            Integer integer_calorie_count = Integer.parseInt(calorie_count);
-
-
-            String currentGoal = textDisplayGoal.getText().toString().replace(" Calories", "");
-            Integer integerGoal = Integer.parseInt(currentGoal);
-            Integer percentage = Math.round(integerGoal/integer_calorie_count);
-        }
-        */
-
         displayProgressTextView.setText(calorie_count + " " + selectedMacronutrient);
 
     }
@@ -307,7 +302,14 @@ public class GoalsFragment extends Fragment {
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         savedText = sharedPreferences.getString(TEXT, "");
-        textDisplayGoal.setText(savedText);
+        if(savedText.equals("Calories (kcal)"))
+        {
+            textDisplayGoal.setText("");
+        }
+        else
+        {
+            textDisplayGoal.setText(savedText);
+        }
     }
 
     @Override
