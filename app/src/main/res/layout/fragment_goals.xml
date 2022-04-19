@@ -113,7 +113,7 @@
             android:ems="10"
             android:gravity="start"
             android:hint="@string/add_new_goal"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text=""
             android:textColorHint="#757575" />
 

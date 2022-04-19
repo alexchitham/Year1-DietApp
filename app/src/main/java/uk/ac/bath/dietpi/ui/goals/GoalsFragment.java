@@ -13,8 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
 
 import uk.ac.bath.dietpi.DBHandler;
@@ -30,12 +35,20 @@ public class GoalsFragment extends Fragment {
     private TextView textDisplayGoal;
     private TextView displayProgressTextView;
     private AutoCompleteTextView autoCompleteTextView;
+    private TextView displayStreaksTextView;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TEXT = "text";
+    public static final String DATE_TEXT = "date";
+    public static final String MACRO = "macro";
+    public static final String STREAK = "0";
+    public static final String CHECK = "false";
 
     private String savedText;
     private String selectedMacronutrient;
+    private String ongoingStreak;
+    private String currentlySavedDate;
+    private String checked;
 
     @Override
     public void onResume() {
@@ -43,11 +56,14 @@ public class GoalsFragment extends Fragment {
         String[] macronutrients = getResources().getStringArray(R.array.macronutrients);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdown_item, macronutrients);
         binding.autoCompleteTextView.setAdapter(arrayAdapter);
+        displayStreaks();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        GoalsViewModel goalsViewModel =
+                new ViewModelProvider(this).get(GoalsViewModel.class);
         binding = FragmentGoalsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -60,37 +76,160 @@ public class GoalsFragment extends Fragment {
         textDisplayGoal = binding.textDisplayGoal;
         displayProgressTextView = binding.displayProgressTextView;
         autoCompleteTextView = binding.autoCompleteTextView;
+        displayStreaksTextView = binding.displayStreaksTextView;
 
         setSelection();
         displayCurrentProgress();
+        displayStreaks();
 
         btnChangeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String newGoal = editTextGoal.getText().toString();
-                if(!newGoal.equals(""))
+                if(!newGoal.equals("") && !autoCompleteTextView.getText().toString().equals(""))
                 {
                     saveData();
                     setCurrentGoalText(newGoal);
                     saveData();
+                    setStreaks("0");
                     displayCurrentProgress();
+                    setCurrentDate();
+                    setNotChecked();
+                    displayStreaks();
                 }
             }
         });
 
         loadData();
-
         return root;
+    }
+
+    public void displayStreaks()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        ongoingStreak = sharedPreferences.getString(STREAK, "");
+        checked = sharedPreferences.getString(CHECK, "");
+
+        if(ongoingStreak.equals(""))
+        {
+            ongoingStreak = "0";
+        }
+        Integer streak_value = Integer.parseInt(ongoingStreak);
+
+        if(checked.equals(""))
+        {
+            checked = "false";
+        }
+
+        currentlySavedDate = sharedPreferences.getString(DATE_TEXT, "");
+        if(currentlySavedDate.equals(""))
+        {
+            currentlySavedDate = getDate();
+        }
+        String currentDate = getDate();
+
+
+
+        String new_save_date = currentlySavedDate.substring(0, 2);
+        String new_current_date = currentDate.substring(0, 2);
+
+
+        int savedDay = Integer.parseInt(new_save_date);
+        int currentDay = Integer.parseInt(new_current_date);
+
+        String goal = binding.textDisplayGoal.getText().toString();
+        String progress = binding.displayProgressTextView.getText().toString();
+        if(!goal.equals("") && !progress.equals("") && checked.equals("false"))
+        {
+            if(currentDay == savedDay)
+            {
+                float goal_val = Float.parseFloat(goal.replaceAll("[^0-9.]", ""));
+                float progress_val = Float.parseFloat(progress.replaceAll("[^0-9.]", ""));
+
+                if(progress_val >= goal_val)
+                {
+                    streak_value += 1;
+                    setChecked();
+                    setStreaks(streak_value.toString());
+                }
+            }
+            else if(currentDay == savedDay + 1)
+            {
+                float goal_val = Float.parseFloat(goal.replaceAll("[^0-9.]", ""));
+                float progress_val = Float.parseFloat(progress.replaceAll("[^0-9.]", ""));
+
+                if(progress_val >= goal_val)
+                {
+                    streak_value += 1;
+                    setChecked();
+                    setStreaks(streak_value.toString());
+                    setCurrentDate();
+                }
+            }
+            else
+            {
+                streak_value = 0;
+                setStreaks("0");
+                setCurrentDate();
+            }
+        }
+        displayStreaksTextView.setText(streak_value.toString());
+    }
+
+    public void setChecked()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(CHECK, "true");
+        editor.apply();
+    }
+
+    public void setNotChecked()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(CHECK, "false");
+        editor.apply();
+    }
+
+    public String getDate()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date currentDate = new Date();
+        return dateFormat.format(currentDate);
+    }
+
+    public void setCurrentDate()
+    {
+        String a_new_date = getDate();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(DATE_TEXT, a_new_date);
+        editor.apply();
+    }
+
+    public void setStreaks(String streak)
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(STREAK, streak);
+        editor.apply();
     }
 
     public void setSelection()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+        selectedMacronutrient = sharedPreferences.getString(MACRO, "");
 
-        if(!getMacronutrient.equals(null))
+        if(!selectedMacronutrient.equals(null))
         {
-            autoCompleteTextView.setText(getMacronutrient);
+            autoCompleteTextView.setText(selectedMacronutrient);
         }
         else
         {
@@ -101,34 +240,34 @@ public class GoalsFragment extends Fragment {
     public void setCurrentGoalText(String newGoal)
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+        selectedMacronutrient = sharedPreferences.getString(MACRO, "");
 
-        textDisplayGoal.setText(newGoal + " " + getMacronutrient);
+        textDisplayGoal.setText(newGoal + " " + selectedMacronutrient);
         editTextGoal.setText("");
     }
 
     public void displayCurrentProgress()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+        selectedMacronutrient = sharedPreferences.getString(MACRO, "");
         DBHandler dbHandler = ((MainActivity) getActivity()).getDbHandler();
 
         Hashtable<String,Float> hT = dbHandler.retrieveTotal();
         String calorie_count;
 
-        if(getMacronutrient.equals("Calories (kcal)"))
+        if(selectedMacronutrient.equals("Calories (kcal)"))
         {
             calorie_count = hT.get("Calories").toString();
         }
-        else if(getMacronutrient.equals("Fat (g)"))
+        else if(selectedMacronutrient.equals("Fat (g)"))
         {
             calorie_count = hT.get("Fat").toString();
         }
-        else if(getMacronutrient.equals("Protein (g)"))
+        else if(selectedMacronutrient.equals("Protein (g)"))
         {
             calorie_count = hT.get("Protein").toString();
         }
-        else if(getMacronutrient.equals("Carbs (g)"))
+        else if(selectedMacronutrient.equals("Carbs (g)"))
         {
             calorie_count = hT.get("Carbohydrates").toString();
         }
@@ -149,7 +288,7 @@ public class GoalsFragment extends Fragment {
         }
         */
 
-        displayProgressTextView.setText(calorie_count + " " + getMacronutrient);
+        displayProgressTextView.setText(calorie_count + " " + selectedMacronutrient);
 
     }
 
@@ -159,7 +298,7 @@ public class GoalsFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(TEXT, textDisplayGoal.getText().toString());
-        editor.putString(selectedMacronutrient, autoCompleteTextView.getText().toString());
+        editor.putString(MACRO, autoCompleteTextView.getText().toString());
 
         editor.apply();
     }
@@ -175,10 +314,10 @@ public class GoalsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String getMacronutrient = sharedPreferences.getString(selectedMacronutrient, "");
+        selectedMacronutrient = sharedPreferences.getString(MACRO, "");
 
         String currentNutrient = autoCompleteTextView.getText().toString();
-        if(currentNutrient.equals(getMacronutrient))
+        if(currentNutrient.equals(selectedMacronutrient))
         {
             saveData();
         }
