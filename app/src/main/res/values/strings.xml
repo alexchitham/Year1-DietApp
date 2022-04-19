@@ -12,7 +12,8 @@
     <string name="protein_g">Protein (g)</string>
     <string name="fat_g">Fat (g)</string>
     <string name="current_goal">Current Goal</string>
-    <string name="progress_text_str">Current Progress</string>
+    <string name="progress_text_str">Current Progress:</string>
+    <string name="streaks_text_str">Daily Streak:</string>
     <string name="add_goal_str">+ Add Goal</string>
     <string name="add_new_goal">Add New Goal</string>
     <string name="textview">TextView</string>
