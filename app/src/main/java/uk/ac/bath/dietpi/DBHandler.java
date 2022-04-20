@@ -175,6 +175,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return retrieveTotal(date);
     }
 
+    // Calculate totals of macro-nutrients for the specified date (might be split into separate methods, or use of general method)
     public Hashtable<String,Float> retrieveTotal(String date){
         // Retrieve the whole database
         SQLiteDatabase db = this.getWritableDatabase();
