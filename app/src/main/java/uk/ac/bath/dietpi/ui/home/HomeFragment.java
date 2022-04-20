@@ -1,6 +1,6 @@
 package uk.ac.bath.dietpi.ui.home;
 
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,34 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Locale;
 
 import uk.ac.bath.dietpi.DBHandler;
 import uk.ac.bath.dietpi.MainActivity;
@@ -54,16 +46,16 @@ public class HomeFragment extends Fragment {
     private void onSpinnerChange(AdapterView<?> parent, View view, int pos, long id) {
         switch (pos) {
             case 1:
-                setGraphData(DBHandler.getColumnFat(), parent.getItemAtPosition(pos).toString());
+                setLineGraphData(DBHandler.getColumnFat(), parent.getItemAtPosition(pos).toString());
                 break;
             case 2:
-                setGraphData(DBHandler.getColumnCarbohydrates(), parent.getItemAtPosition(pos).toString());
+                setLineGraphData(DBHandler.getColumnCarbohydrates(), parent.getItemAtPosition(pos).toString());
                 break;
             case 3:
-                setGraphData(DBHandler.getColumnProtein(), parent.getItemAtPosition(pos).toString());
+                setLineGraphData(DBHandler.getColumnProtein(), parent.getItemAtPosition(pos).toString());
                 break;
             default:
-                setGraphData(DBHandler.getColumnCalories(), parent.getItemAtPosition(pos).toString());
+                setLineGraphData(DBHandler.getColumnCalories(), parent.getItemAtPosition(pos).toString());
                 break;
 
         }
@@ -102,7 +94,7 @@ public class HomeFragment extends Fragment {
         Log.d("Debug", dailyConsumption.toString());
     }
 
-    public void setGraphData(String col, String label) {
+    public void setLineGraphData(String col, String label) {
         List<Entry> entries = new ArrayList<>();
 
         DBHandler dbHandler = ((MainActivity) getActivity()).getDbHandler();
@@ -118,12 +110,28 @@ public class HomeFragment extends Fragment {
             entries.add(new Entry(cal.getTime().getDate(), total));
         }
 
-        System.out.println(entries);
-
         LineDataSet dataSet = new LineDataSet(entries, label);
         LineData lineData = new LineData(dataSet);
         binding.lineChart.setData(lineData);
+        binding.lineChart.getDescription().setEnabled(false);
         binding.lineChart.invalidate();
+    }
+
+    public void setPieGraphData() {
+        List<PieEntry> entries = new ArrayList<>();
+
+        DBHandler dbHandler = ((MainActivity) getActivity()).getDbHandler();
+
+        entries.add(new PieEntry(dbHandler.retrieveTotal().get(DBHandler.getColumnFat()), "Fat"));
+        entries.add(new PieEntry(dbHandler.retrieveTotal().get(DBHandler.getColumnCarbohydrates()), "Carbohydrates"));
+        entries.add(new PieEntry(dbHandler.retrieveTotal().get(DBHandler.getColumnProtein()), "Protein"));
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setColors(new int[] { Color.rgb(255,51,51), Color.rgb(51,181,255), Color.rgb(51,100,175) });
+        PieData pieData = new PieData(dataSet);
+        binding.pieChart.setData(pieData);
+        binding.pieChart.getDescription().setEnabled(false);
+        binding.pieChart.invalidate();
     }
 
     @Override
@@ -132,7 +140,8 @@ public class HomeFragment extends Fragment {
 
         activityCreated = true;
         updateDaysConsumption();
-        setGraphData(DBHandler.getColumnCalories(), "Calories (kcal)");
+        setLineGraphData(DBHandler.getColumnCalories(), "Calories (kcal)");
+        setPieGraphData();
     }
 
     @Override
@@ -144,7 +153,8 @@ public class HomeFragment extends Fragment {
             String[] macronutrients = getResources().getStringArray(R.array.macronutrients);
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdown_item, macronutrients);
             binding.graphViewField.setAdapter(arrayAdapter);
-            setGraphData(DBHandler.getColumnCalories(), "Calories (kcal)");
+            setLineGraphData(DBHandler.getColumnCalories(), "Calories (kcal)");
+            setPieGraphData();
 
             updateDaysConsumption();
         }
