@@ -6,7 +6,9 @@
     <string name="add_food">+ Add Food</string>
     <string name="today_s_intake">Today\'s Intake</string>
     <string name="carbohydrates_g">Carbohydrates (g)</string>
+    <string name="carbs_g">Carbs (g)</string>
     <string name="calories_kcal">Calories (kcal)</string>
+    <string name="calories">Calories</string>
     <string name="Blank">" "</string>
     <string name="food_name">Food Name</string>
     <string name="protein_g">Protein (g)</string>
@@ -36,6 +38,14 @@
     <string name="update_details">Update Details</string>
     <string name="exit">Exit</string>
     <string name="i_prefer_not_to_say">I prefer not to say</string>
+    <string name="date">Date</string>
+    <string name="total_calories_kcal">Total Calories (kcal)</string>
+    <string name="total_protein_g">Total Protein (g)</string>
+    <string name="total_carbohydrates_g">Total Carbohydrates (g)</string>
+    <string name="total_fat_g">Total Fat (g)</string>
+    <string name="todays_intake">Today\'s Intake</string>
+    <string name="last_14_days">Last 14 Days</string>
+    <string name="_7_day_summary">7 Day Summary</string>
     <string-array name="macronutrients">
         <item>Calories (kcal)</item>
         <item>Fat (g)</item>
