@@ -139,6 +139,10 @@ public class GoalsFragment extends Fragment {
         int savedDay = Integer.parseInt(new_save_date);
         int currentDay = Integer.parseInt(new_current_date);
 
+        if(currentDay == savedDay + 1)
+        {
+            setNotChecked();
+        }
 
         String goal = binding.textDisplayGoal.getText().toString();
         String progress = binding.displayProgressTextView.getText().toString();
