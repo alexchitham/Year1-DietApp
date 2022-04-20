@@ -168,12 +168,16 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Calculate totals of macro-nutrients (might be split into separate methods, or use of general method)
-    public Hashtable<String,Float> retrieveTotal(){
-        // Retrieve the whole database
-        SQLiteDatabase db = this.getWritableDatabase();
-
+    public Hashtable<String,Float> retrieveTotal() {
         // Get current date
         String date = getDate();
+
+        return retrieveTotal(date);
+    }
+
+    public Hashtable<String,Float> retrieveTotal(String date){
+        // Retrieve the whole database
+        SQLiteDatabase db = this.getWritableDatabase();
 
         // Initialize the query
         String sumQuery = "SELECT SUM(" + TBL_FOOD + "." + COLUMN_CALORIES +"), SUM("+ TBL_FOOD +"." + COLUMN_CARBOHYDRATES +"), SUM("+ TBL_FOOD +"." + COLUMN_PROTEIN +"), SUM(" + TBL_FOOD +"." + COLUMN_FAT + ") " +
