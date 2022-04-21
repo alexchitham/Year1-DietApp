@@ -259,11 +259,15 @@ public class GoalsFragment extends Fragment {
 
     public void displayCurrentProgress()
     {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date currentDate = new Date();
+        String todays_date = dateFormat.format(currentDate);
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         selectedMacronutrient = sharedPreferences.getString(MACRO, "");
         DBHandler dbHandler = ((MainActivity) getActivity()).getDbHandler();
 
-        Hashtable<String,Float> hT = dbHandler.retrieveTotal();
+        Hashtable<String,Float> hT = dbHandler.retrieveTotal(todays_date);
         String calorie_count;
 
         if(selectedMacronutrient.equals("Calories (kcal)"))
